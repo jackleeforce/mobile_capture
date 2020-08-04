@@ -6,3 +6,5 @@ services:
     container_name: mobile_capture_server
     ports:
       - "9002:9002"
+    volumes:
+      - "../source:/mobile_capture_server"
