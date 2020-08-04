@@ -5,6 +5,7 @@ LABEL maintainer="jackleeforce@gmail.com"
 # ENV DEBIAN_FRONTEND=noninteractive \
 #     TZ=Asia/Shanghai
 
+COPY ../source /mobile_capture_server
 WORKDIR /mobile_capture_server
 
 RUN pip install pipenv -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com \
