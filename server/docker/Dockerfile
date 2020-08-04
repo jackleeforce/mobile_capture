@@ -7,7 +7,10 @@ LABEL maintainer="jackleeforce@gmail.com"
 
 WORKDIR /mobile_capture_server
 
-RUN pip install ./
+# RUN pip install pipenv -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com \
+#     && pipenv install 
+
+RUN pipenv install
 
 # RUN apt-get update -qq \
 #     && apt-get install -y tzdata locales python3-pip python3-dev \
