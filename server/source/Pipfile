@@ -9,8 +9,6 @@ verify_ssl = true
 flask = "*"
 requests = "*"
 flask-restful = "*"
-gunicorn = "*"
-gevent = "*"
 
 [requires]
 python_version = "3.7"
