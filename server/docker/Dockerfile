@@ -8,8 +8,7 @@ WORKDIR /mobile_capture_server
 RUN pip install pipenv -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com 
 
 
-ENTRYPOINT [ "pipenv", "sync" ]
-
-CMD ["pipenv", "run", "gunicorn", "-c", "gunicorn_conf.py", "app:app"]
+CMD [ "pipenv", "sync" ]
+ENTRYPOINT ["pipenv", "run", "gunicorn", "-c", "gunicorn_conf.py", "app:app"]
 
 
