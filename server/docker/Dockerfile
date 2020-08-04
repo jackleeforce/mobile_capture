@@ -6,7 +6,7 @@ LABEL maintainer="jackleeforce@gmail.com"
 #     TZ=Asia/Shanghai
 
 WORKDIR /mobile_capture_server
-COPY source/* /mobile_capture_server
+COPY source/* /mobile_capture_server/
 
 
 RUN pip install pipenv -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com \
