@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  mobile_capture_server:
+    build: ./
+    image: mobile_capture_server:latest
+    container_name: mobile_capture_server
+    ports:
+      - "9002:9002"
+    volumes:
+      - "~/mobile_capture/server/source:/mobile_capture_server"
