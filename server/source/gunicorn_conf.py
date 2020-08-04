@@ -14,9 +14,9 @@ worker_connections = 500
 # 设置进程文件目录
 pidfile = 'gunicorn.pid'
 # 设置访问日志和错误信息日志路径
-accesslog = 'log/access/access.log'
+accesslog = './access.log'
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
-errorlog = 'log/error/error.log'
+errorlog = './error.log'
 # 设置日志记录水平
 loglevel = 'info'
 # 代码发生变化是否自动重启
