@@ -29,4 +29,6 @@ RUN pip install pipenv -i https://pypi.douban.com/simple/ --trusted-host pypi.do
 #     LANGUAGE=zh_CN:zh \
 #     LC_ALL=zh_CN.UTF-8
 
-CMD ["gunicorn", "-c", "gunicorn_conf.py", "app:app"]
+CMD ["pipenv", "run", "gunicorn", "-c", "gunicorn_conf.py", "app:app"]
+
+
