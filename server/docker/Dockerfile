@@ -8,9 +8,9 @@ LABEL maintainer="jackleeforce@gmail.com"
 WORKDIR /mobile_capture_server
 
 RUN pip install pipenv -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com \
-    && python3 -m pip install gunicorn -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com \
-    && python3 -m pip install gevent -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com \
-    && pipenv install 
+    # && python3 -m pip install gunicorn -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com \
+    # && python3 -m pip install gevent -i https://pypi.douban.com/simple/ --trusted-host pypi.douban.com \
+    && pipenv sync 
 
 # RUN apt-get update -qq \
 #     && apt-get install -y tzdata locales python3-pip python3-dev \
