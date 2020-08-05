@@ -42,7 +42,7 @@ class OneWayAuth(Resource):
 
         localtime = time.strftime(time_format, time.localtime())
 
-        result = OperateResult('OneWayAuth', localtime)
+        result = OperateResult('0', "OneWayAuth response:" + localtime)
 
         return make_response(jsonify(result.serialize()), 200)
 
@@ -60,7 +60,7 @@ class TwoWayAuth(Resource):
 
         localtime = time.strftime(time_format, time.localtime())
 
-        result = OperateResult('TwoWayAuth', localtime)
+        result = OperateResult('0', "TwoWayAuth response:" + localtime)
 
         return make_response(jsonify(result.serialize()), 200)
 
@@ -78,7 +78,7 @@ class UnSafe(Resource):
 
         localtime = time.strftime(time_format, time.localtime())
 
-        result = OperateResult('Unsafe', localtime)
+        result = OperateResult('0', "Unsafe response:" + localtime)
 
         return make_response(jsonify(result.serialize()), 200)
 

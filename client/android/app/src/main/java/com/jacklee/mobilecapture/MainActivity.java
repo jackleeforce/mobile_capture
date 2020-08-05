@@ -1,6 +1,13 @@
 package com.jacklee.mobilecapture;
 
 import androidx.appcompat.app.AppCompatActivity;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Supplier;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -14,6 +21,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -22,16 +31,46 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Interface for retrofit request.
+     */
+    private interface HttpService {
+
+        @GET("/mobile-capture/v1/unsafe")
+        Call<Response> unSafe();
+    }
+
+    public static class Response {
+        public final String errorCode;
+        public final String message;
+
+        public Response(String errorCode, String message) {
+            this.errorCode = errorCode;
+            this.message = message;
+        }
+    }
+
+
+
 
     public void httpBtnClick(View v) {
 
-        HttpCommunication httpCommunication = new HttpCommunication(false,"http://test.jacklee.work",false,this);
+        Completable.complete()
+                .toSingle(() -> {
+                    HttpCommunication httpCommunication = new HttpCommunication(false,"http://test.jacklee.work",false,MainActivity.this);
 
-        httpCommunication.getRetrofit().create()
+                    HttpService service = httpCommunication.getRetrofit().create(HttpService.class);
 
+                    Call<Response> call = service.unSafe();
 
+                    Response response = call.execute().body();
 
-        Toast.makeText(this,"httpClick",Toast.LENGTH_SHORT).show();
+                    return response;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> Toast.makeText(MainActivity.this,"http response:"+response.message,Toast.LENGTH_SHORT).show(),
+                        throwable -> Toast.makeText(MainActivity.this,"http request exception occurred:"+throwable.getMessage(),Toast.LENGTH_SHORT).show());
     }
 
 
@@ -48,48 +87,5 @@ public class MainActivity extends AppCompatActivity {
 
 }
 
-/**
- * Interface for retrofit request.
- */
-public interface HttpService {
-    /**
-     * send RequestBody and receive ResponseBody
-     *
-     * @param body request data
-     * @return ObservableSource which emits ResponseBody
-     */
-    @GET("/")
-    Call<ResponseBody> unsecurity(@Body RequestBody body);
 
-
-    /**
-     * 银联直连交易
-     *
-     * @param body
-     * @return
-     */
-    @POST("/unp/webtrans/WPOS")
-    @Headers({
-            "User-Agent: Donjin Http 0.1",
-            "Cache-Control: no-cache",
-            "Content-Type:x-ISO-TPDU/x-auth",
-            "Accept: */*"
-    })
-    Observable<ResponseBody> transactionUnionPayDirectLink(@Body RequestBody body);
-
-
-    /**
-     * 图片上传测试
-     * @param cidImage
-     * @param selfieImage
-     * @param customerData
-     * @return
-     */
-    @POST("/xxx")
-    @Headers({
-            "xxx: xxx",
-    })
-    Observable<ResponseBody> transactionUploadImage(@Part("cidImage") RequestBody cidImage, @Part("selfieImage") RequestBody selfieImage
-            , @Part("customerData") RequestBody customerData);
-}
 
