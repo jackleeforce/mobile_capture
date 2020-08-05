@@ -32,14 +32,17 @@ class OperateResult:
 class OneWayAuth(Resource):
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('time_format', required=True)
+        parser.add_argument('time_format', required=False)
         args = parser.parse_args()
 
         time_format = args['time_format']
 
+        if time_format is None:
+            time_format = '%Y-%m-%d %H:%M:%S'
+
         localtime = time.strftime(time_format, time.localtime())
 
-        result = OperateResult('0', localtime)
+        result = OperateResult('OneWayAuth', localtime)
 
         return make_response(jsonify(result.serialize()), 200)
 
@@ -47,14 +50,17 @@ class OneWayAuth(Resource):
 class TwoWayAuth(Resource):
     def get(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('time_format', required=True)
+        parser.add_argument('time_format', required=False)
         args = parser.parse_args()
 
         time_format = args['time_format']
 
+        if time_format is None:
+            time_format = '%Y%m%d%H%M%S'
+
         localtime = time.strftime(time_format, time.localtime())
 
-        result = OperateResult('0', localtime)
+        result = OperateResult('TwoWayAuth', localtime)
 
         return make_response(jsonify(result.serialize()), 200)
 
