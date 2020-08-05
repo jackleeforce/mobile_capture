@@ -65,6 +65,25 @@ class TwoWayAuth(Resource):
         return make_response(jsonify(result.serialize()), 200)
 
 
+class UnSafe(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('time_format', required=False)
+        args = parser.parse_args()
+
+        time_format = args['time_format']
+
+        if time_format is None:
+            time_format = '%Y/%m/%d/%H/%M/%S'
+
+        localtime = time.strftime(time_format, time.localtime())
+
+        result = OperateResult('Unsafe', localtime)
+
+        return make_response(jsonify(result.serialize()), 200)
+
+
+api.add_resource(UnSafe, '/mobile-capture/v1/unsafe')
 api.add_resource(OneWayAuth, '/mobile-capture/v1/one-way')
 api.add_resource(TwoWayAuth, '/mobile-capture/v1/two-way')
 
